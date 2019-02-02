@@ -7,7 +7,7 @@ canvas.height = 900;
 canvas.addEventListener("mousedown", mouseDown);
 canvas.addEventListener("mouseup", mouseUp);
 
-setup(6);
+setup(10);
 
 function setup(size) {
     window.gridSize = size;
@@ -23,8 +23,8 @@ function draw() {
             let num = grid[y][x] - 1;
             let row = Math.floor(num / gridSize);
             let col = num - row * gridSize;
-            ctx.fillStyle = 'rgb(' + Math.floor(255 - 42.5 * row) + ', ' +
-                Math.floor(255 - 42.5 * col) + ', 0)';
+            ctx.fillStyle = 'rgb(' + Math.floor(255 - (255 / gridSize) * row) + ', ' +
+                Math.floor(255 - (255 / gridSize) * col) + ', 0)';
             ctx.fillRect(x * squareSize, y * squareSize, squareSize, squareSize);
             ctx.font = squareSize / 1.3 + "px Arial";
             ctx.textAlign = "center";
