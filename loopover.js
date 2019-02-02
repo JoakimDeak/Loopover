@@ -20,8 +20,11 @@ function setup(size) {
 function draw() {
     for (let y = 0; y < grid.length; y++) {
         for (let x = 0; x < grid[y].length; x++) {
-            ctx.fillStyle = 'rgb(' + Math.floor(255 - 42.5 * grid[y][x] / 15) + ', ' +
-                Math.floor(255 - 42.5 * grid[y][x] / 5) + ', 50)';
+            let num = grid[y][x] - 1;
+            let row = Math.floor(num / gridSize);
+            let col = num - row * gridSize;
+            ctx.fillStyle = 'rgb(' + Math.floor(255 - 42.5 * row) + ', ' +
+                Math.floor(255 - 42.5 * col) + ', 0)';
             ctx.fillRect(x * squareSize, y * squareSize, squareSize, squareSize);
             ctx.font = squareSize / 1.3 + "px Arial";
             ctx.textAlign = "center";
