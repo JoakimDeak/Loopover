@@ -29,7 +29,7 @@ function draw() {
             ctx.font = squareSize / 1.3 + "px Arial";
             ctx.textAlign = "center";
             ctx.fillStyle = "#000";
-            ctx.fillText(grid[y][x], x * squareSize + squareSize / 2, y * squareSize + squareSize / 1.3);
+            ctx.fillText(grid[y][x], x * squareSize + squareSize / 2, y * squareSize + squareSize / 1.3, squareSize - 10);
         }
     }
 }
