@@ -25,8 +25,8 @@ function setup(size) {
 
 function update() {
     if (mouseDown) {
-        draw();
         checkForMove();
+        draw();
     }
     requestAnimationFrame(update);
 }
@@ -91,7 +91,6 @@ function shift(rowcol, dir) {
             grid[0][rowcol] = edgeNum;
             break;
     }
-    draw();
 }
 
 function shuffle() {
