@@ -1,11 +1,15 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = 900;
-canvas.height = 900;
+canvas.height = window.innerHeight;
+canvas.width = canvas.height;
 
 canvas.addEventListener("mousedown", mouseDown);
 canvas.addEventListener("mouseup", mouseUp);
+canvas.onmousemove = function(){
+    window.currentXPos = Math.floor(event.clientX / squareSize);
+    window.currentYPos = Math.floor(event.clientY / squareSize);
+};
 
 setup(6);
 
@@ -13,8 +17,18 @@ function setup(size) {
     window.gridSize = size;
     window.squareSize = Math.floor(canvas.width / gridSize);
     window.grid = makeGrid(gridSize);
+    window.mouseDown = false;
 
     draw();
+    update();
+}
+
+function update() {
+    if (mouseDown) {
+        draw();
+        checkForMove();
+    }
+    requestAnimationFrame(update);
 }
 
 function draw() {
@@ -80,46 +94,6 @@ function shift(rowcol, dir) {
     draw();
 }
 
-function mouseDown() {
-    window.downxpos = event.clientX;
-    window.downypos = event.clientY;
-}
-
-function mouseUp() {
-    window.upxpos = event.clientX;
-    window.upypos = event.clientY;
-    mouseDistance();
-}
-
-function mouseDistance() {
-    let mdx = Math.floor(downxpos / squareSize);
-    let mux = Math.floor(upxpos / squareSize);
-    let mdy = Math.floor(downypos / squareSize);
-    let muy = Math.floor(upypos / squareSize);
-    let dir;
-    if (Math.abs(downxpos - upxpos) > Math.abs(downypos - upypos)) {
-        if (downxpos > upxpos) {
-            dir = "left";
-        } else {
-            dir = "right";
-        }
-        let times = Math.abs(mdx - mux);
-        for (let i = 0; i < times; i++) {
-            shift(mdy, dir);
-        }
-    } else {
-        if (downypos > upypos) {
-            dir = "up";
-        } else {
-            dir = "down";
-        }
-        let times = Math.abs(mdy - muy);
-        for (let i = 0; i < times; i++) {
-            shift(mdx, dir);
-        }
-    }
-}
-
 function shuffle() {
     for (let i = 0; i < 50; i++) {
         let rowcol = Math.floor(Math.random() * gridSize);
@@ -145,6 +119,36 @@ function shuffle() {
 
         for (let i = 0; i < times; i++) {
             shift(rowcol, dir);
+        }
+    }
+}
+
+function mouseDown() {
+    mouseDown = true;
+    window.prevXPos = Math.floor(event.clientX / squareSize);
+    window.prevYPos = Math.floor(event.clientY / squareSize);
+}
+
+function mouseUp() {
+    mouseDown = false;
+}
+
+function checkForMove() {
+    if (currentXPos !== prevXPos) {
+        if(currentXPos > prevXPos){
+            shift(currentYPos, "right");
+            prevXPos++;
+        } else{
+            shift(currentYPos, "left");
+            prevXPos--;
+        }
+    } else if (currentYPos !== prevYPos) {
+        if(currentYPos > prevYPos){
+            shift(currentXPos, "down");
+            prevYPos++;
+        }else{
+            shift(currentXPos, "up");
+            prevYPos--;
         }
     }
 }
