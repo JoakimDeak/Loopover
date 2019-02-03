@@ -142,7 +142,8 @@ function checkForMove() {
             shift(currentYPos, "left");
             prevXPos--;
         }
-    } else if (currentYPos !== prevYPos) {
+    }
+    if (currentYPos !== prevYPos) {
         if(currentYPos > prevYPos){
             shift(currentXPos, "down");
             prevYPos++;
